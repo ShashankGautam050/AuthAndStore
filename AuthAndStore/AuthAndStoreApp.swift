@@ -7,11 +7,29 @@
 
 import SwiftUI
 
+import FirebaseCore
+import Observation
+import FirebaseAuth
+
+
 @main
 struct AuthAndStoreApp: App {
+   
+    @State var vm : AuthAndStoreViewModel
+    
+    init() {
+        FirebaseApp.configure()
+        _vm = .init(initialValue: AuthAndStoreViewModel())
+    }
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            
+            if vm.auth.currentUser != nil{
+                HomeScreen(authviewModel: vm)
+            }
+            else {
+                LoginScreen(vm: vm)
+            }
         }
     }
 }
